@@ -1,0 +1,23 @@
+# Default config
+service:
+  name: SERVICE_NAME
+  description: SERVICE_DESCRIPTION
+  apiVersion: '0.0.1'
+  baseUrl: '/api/v1/wedding'
+
+server:
+  host: SERVER_HOST
+  port: SERVER_PORT
+  hostname: SERVER_HOSTNAME
+
+swagger:
+  hostname: SWAGGER_HOSTNMAE
+  schema: 'http'
+
+database:
+  mysql:
+    host: DATABASE_HOST
+    port: DATABASE_PORT
+    user: DATABASE_USER
+    password: DATABASE_PASSWORD
+    database: DATABASE_NAME
