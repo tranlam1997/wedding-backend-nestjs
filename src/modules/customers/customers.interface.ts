@@ -7,14 +7,13 @@ export interface ICustomer {
     delegateMobile: string;
     address: string;
     province?: any;
+    provinceCode: string;
     district?: any;
+    districtCode: string;
     ward?: any;
+    wardCode: string;
     avatar: string;
-    createdAt: Date;
-    updatedAt: Date;
     emailVerified: boolean;
-    provider: string;
-    providerId: string;
     company: string;
     note: string;
 }
