@@ -1,18 +1,21 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource, DataSourceOptions } from 'typeorm';
-import { TypeOrmFactory } from './database.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { SequelizeModule } from '@nestjs/sequelize';
+import databaseConfig from './database.config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRootAsync({
+    SequelizeModule.forRootAsync({
+      imports: [ConfigModule.forFeature(databaseConfig)],
+      useFactory: async (configService: ConfigService) => ({
+        dialect: 'mysql',
+        host: configService.get('database.host'),
+        port: configService.get('database.port'),
+        username: configService.get('database.username'),
+        password: configService.get('database.password'),
+        database: configService.get('database.database'),
+      }),
       inject: [ConfigService],
-      useFactory: TypeOrmFactory,
-      dataSourceFactory: async (options) => {
-        const dataSource = await new DataSource(options as DataSourceOptions).initialize();
-        return dataSource;
-      },
     }),
   ],
 })
