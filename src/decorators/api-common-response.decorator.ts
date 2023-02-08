@@ -1,4 +1,4 @@
-import { applyDecorators, createParamDecorator, ExecutionContext, HttpCode } from '@nestjs/common';
+import { applyDecorators, HttpCode } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiInternalServerErrorResponse,
@@ -8,10 +8,7 @@ import {
   ApiForbiddenResponse,
 } from '@nestjs/swagger';
 import { ErrorModel } from '../errors/error.model';
-export const GetUserId = createParamDecorator((_field, ctx: ExecutionContext) => {
-  const request = ctx.switchToHttp().getRequest<any>();
-  return request.userId;
-});
+
 export function ApiCommonResponse() {
   return applyDecorators(
     HttpCode(200),
