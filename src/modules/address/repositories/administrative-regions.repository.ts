@@ -9,4 +9,5 @@ export class AdministrativeRegionsRepository extends BaseRepository<IAdministrat
     constructor(@InjectModel(AdministrativeRegion) model: ModelType<IAdministrativeRegion,AdministrativeRegion>) {
         super(model);
     }
+
 }
