@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { Customer } from './customers.model';
 import { ICustomer } from './customers.interface';
 import { CustomersRepository } from './customers.repository';
 
@@ -6,30 +8,19 @@ import { CustomersRepository } from './customers.repository';
 export class CustomersService {
   constructor(
     private readonly customersRepository: CustomersRepository,
+    @InjectModel(Customer) private readonly customerModel: typeof Customer,
   ) {}
 
   async getCustomers() {
-    return await this.customersRepository.find({});
+    return this.customerModel.findAll({});
   }
 
-  async findByPhoneOrName({phoneNumber, name}: {phoneNumber: string, name: string}) {
-    return await this.customersRepository.find({
-      where: {
-        phoneNumber,
-        name,
-      },
-    });
-  }
+  async findByPhoneOrName({phoneNumber, name}: {phoneNumber: string, name: string}) {}
 
   async getCustomerById(id: string) {
-    return await this.customersRepository.findOne(id);
   }
 
-  async createCustomer(customer: ICustomer) {
-    return await this.customersRepository.create(customer);
-  }
+  async createCustomer(customer: ICustomer) {}
 
-  async updateCustomer(id: string, customer: ICustomer) {
-    return await this.customersRepository.update(id, customer);
-  }
+  async updateCustomer(id: string, customer: ICustomer) {}
 }
