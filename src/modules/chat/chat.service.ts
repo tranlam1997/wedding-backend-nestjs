@@ -1,15 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { Message } from '../message/models/message.model';
 import sequelize, { Op } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 
 @Injectable()
 export class ChatService {
-  constructor(
-    private sequelize: Sequelize,
-    @InjectModel(Message) private readonly messageModel: typeof Message,
-  ) {}
+  constructor(private sequelize: Sequelize) {}
 
   async getRecentMessagesLite(userId: number) {
     const result = await this.sequelize.query<{
@@ -292,5 +287,343 @@ export class ChatService {
     );
 
     return { error: false, data: result, message: 'chat room' };
+  }
+
+  async getPublicChatRooms(userId: number) {
+    const result = await this.sequelize.query<{
+      id: number;
+      name: string;
+      photoId: string;
+      backgroundId: string;
+      type: string;
+      creatorId: number;
+      displayName: string;
+      createdAt: Date;
+    }>(
+      `
+        SELECT 
+            c.id,
+            c.name,
+            c.photoID,
+            c.backgroundID,
+            c.type,
+            c.creator_id creatorId,
+            u.display_name creatorName,
+            c.created_at createdAt
+        FROM chat_rooms c
+        LEFT JOIN users u
+            ON c.creator_id = u.id
+        WHERE c.type IS NULL OR c.type = ''
+        GROUP BY c.id
+    `,
+      {
+        replacements: [userId],
+        type: sequelize.QueryTypes.SELECT,
+      },
+    );
+
+    return { error: false, data: result, message: 'list empty chat room' };
+  }
+
+  async getPrivateChatRooms(userId: number) {
+    const result = await this.sequelize.query<{
+      id: number;
+      name: string;
+      photoId: string;
+      backgroundId: string;
+      type: string;
+      memberCount: number;
+    }>(
+      `
+        SELECT 
+            c.id,
+            c.name,
+            c.photoId,
+            c.backgroundId,
+            c.type,
+            count(p.user_id) memberCount
+        FROM participants p
+        INNER JOIN chat_rooms c 
+                ON p.room_id = c.id
+        WHERE c.type = 'private' AND  p.user_id = ?
+        GROUP BY p.room_id
+    `,
+      {
+        replacements: [userId],
+        type: sequelize.QueryTypes.SELECT,
+      },
+    );
+
+    return { error: false, data: result, message: 'list chat room' };
+  }
+
+  async getNormalChatRooms(userId: number) {
+    const result = await this.sequelize.query<{
+      id: number;
+      name: string;
+      photoId: string;
+      backgroundId: string;
+      type: string;
+      memberCount: number;
+    }>(
+      `
+        SELECT 
+            c.id,
+            c.name,
+            c.photoId,
+            c.backgroundId,
+            c.type,
+            count(p.user_id) memberCount
+        FROM participants p
+        INNER JOIN chat_rooms c 
+                ON p.room_id = c.id
+        WHERE  p.user_id = ?
+        GROUP BY p.room_id
+    `,
+      {
+        replacements: [userId],
+        type: sequelize.QueryTypes.SELECT,
+      },
+    );
+
+    return { error: false, data: result, message: 'list chat room' };
+  }
+
+  async getEventChatRooms(userId: number) {
+    const result = await this.sequelize.query<{
+      id: number;
+      eventTitle: string;
+      startTime: Date;
+      endTime: Date;
+      placeName: string;
+    }>(
+      `
+        SELECT 
+            c.id,
+            e.title eventTitle,
+            e.start_time startTime,
+            e.end_time endTime,
+            pl.name placeName
+        FROM events e
+        INNER JOIN chat_rooms c
+            ON e.id = c.id
+        LEFT JOIN places pl 
+            ON pl.id = e.place_id
+        WHERE e.enable_chat IS TRUE
+    `,
+      {
+        replacements: [userId],
+        type: sequelize.QueryTypes.SELECT,
+      },
+    );
+
+    return { error: false, data: result, message: 'list chat room' };
+  }
+
+  async getEventChatRoomById(eventId: number) {
+    const result = await this.sequelize.query<{
+      id: number;
+      eventTitle: string;
+      startTime: Date;
+      endTime: Date;
+      placeName: string;
+    }>(
+      `
+        SELECT 
+            c.id,
+            e.title eventTitle,
+            e.start_time startTime,
+            e.end_time endTime,
+            pl.name placeName
+        FROM events e
+        INNER JOIN chat_rooms c
+            ON e.id = c.id
+        LEFT JOIN places pl 
+            ON pl.id = e.place_id
+        WHERE e.id = ?
+    `,
+      {
+        replacements: [eventId],
+        type: sequelize.QueryTypes.SELECT,
+      },
+    );
+
+    return { error: false, data: result, message: 'list chat room' };
+  }
+
+  async createChatRoom(
+    data: {
+      name: string;
+      type: string;
+      photoId: string;
+      backgroundId: string;
+    },
+    userId: number,
+  ) {
+    const time = new Date().getTime();
+    let { name, type, photoId, backgroundId } = data;
+    const transaction = await this.sequelize.transaction();
+    try {
+      const chatRoom = await this.sequelize.query(
+        `
+                INSERT INTO chat_rooms (name, type, photo_id, background_id, creator_id, created_at) 
+                VALUES (?, ?, ?, ?, ?, ?)
+            `,
+        {
+          replacements: [name, type, photoId, backgroundId, userId, time],
+          type: sequelize.QueryTypes.INSERT,
+          transaction,
+        },
+      );
+
+      const chatRoomId = chatRoom[0];
+
+      await this.sequelize.query(
+        `
+                INSERT INTO participants (room_id, user_id, created_at) 
+                VALUES (?, ?, ?)
+            `,
+        {
+          replacements: [chatRoomId, userId, time],
+          type: sequelize.QueryTypes.INSERT,
+          transaction,
+        },
+      );
+
+      const content = '';
+      const msg_type_join_room = 'JOIN_ROOM';
+      await this.sequelize.query(
+        `
+            INSERT INTO messages (room_id, user_id, content, time, type) 
+            VALUES (?,?,?,?,?,?)
+        `,
+        {
+          replacements: [chatRoomId, userId, content, time, msg_type_join_room],
+          type: sequelize.QueryTypes.INSERT,
+          transaction,
+        },
+      );
+
+      const content2 = '';
+      const msg_type_create_room = 'CREATE_ROOM';
+      await this.sequelize.query(
+        `
+        INSERT INTO messages (room_id, user_id, content, time, type) 
+        VALUES (?,?,?,?,?,?)
+    `,
+        {
+          replacements: [chatRoomId, userId, content2, time, msg_type_create_room],
+          type: sequelize.QueryTypes.INSERT,
+          transaction,
+        },
+      );
+      await transaction.commit();
+      return { status: true, id: chatRoomId, message: 'success' };
+    } catch (error) {
+      await transaction.rollback();
+      let message = `Không thành công`;
+      if (error.errno === 1062) {
+        message = `Tên phòng đã tồn tại!`;
+      }
+      return { status: false, error, message };
+    }
+  }
+
+  async updateChatRoom(data: {
+    id: number;
+    name: string;
+    photoId: string;
+    backgroundId: string;
+    type: string;
+    description: string;
+  }) {
+    let { id, name, photoId, backgroundId, type, description } = data;
+    if (!type) {
+      type = '';
+    }
+    const transaction = await this.sequelize.transaction();
+    try {
+      await this.sequelize.query(
+        `
+                UPDATE chat_rooms SET name = ?, photo_id = ?, background_id = ?, type = ?, description = ? WHERE id = ?
+            `,
+        {
+          replacements: [name, photoId, backgroundId, type, description, id],
+          type: sequelize.QueryTypes.UPDATE,
+          transaction,
+        },
+      );
+      await transaction.commit();
+      return { status: true, message: 'Successfully modified!' };
+    } catch (error) {
+      await transaction.rollback();
+      let message = `Không thành công`;
+      if (error.errno === 1062) {
+        message = `Tên phòng đã tồn tại!`;
+      }
+      return { status: false, error, message };
+    }
+  }
+
+  async deleteParticipant(roomId: number, userId: number) {
+    const transaction = await this.sequelize.transaction();
+    try {
+      await this.sequelize.query(
+        `
+                DELETE FROM participants WHERE room_id = ? AND user_id = ?
+            `,
+        {
+          replacements: [roomId, userId],
+          type: sequelize.QueryTypes.DELETE,
+          transaction,
+        },
+      );
+      await transaction.commit();
+      return { status: true, message: 'Successfully deleted!' };
+    } catch (error) {
+      await transaction.rollback();
+      let message = `Không thành công`;
+      return { status: false, error, message };
+    }
+  }
+
+  async createRoomMembers(roomId: number, memberIds: number[]) {
+    const time = new Date().getTime();
+    const transaction = await this.sequelize.transaction();
+    const content = '';
+    const msg_type = 'JOIN_ROOM';
+    try {
+      for (let i = 0; i < memberIds.length; i++) {
+        await this.sequelize.query(
+          `
+                    INSERT INTO participants (room_id, user_id, time) 
+                    VALUES (?, ?, ?)
+                `,
+          {
+            replacements: [roomId, memberIds[i], time],
+            type: sequelize.QueryTypes.INSERT,
+            transaction,
+          },
+        );
+
+        await this.sequelize.query(
+          `
+                INSERT INTO messages (room_id, user_id, content, time, type)
+                VALUES (?,?,?,?,?)
+            `,
+          {
+            replacements: [roomId, memberIds[i], content, time, msg_type],
+            type: sequelize.QueryTypes.INSERT,
+            transaction,
+          },
+        );
+      }
+      await transaction.commit();
+      return { status: true, message: 'Successfully modified!' };
+    } catch (error) {
+      await transaction.rollback();
+      let message = `Không thành công`;
+      return { status: false, error, message };
+    }
   }
 }
