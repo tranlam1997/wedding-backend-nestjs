@@ -4,15 +4,18 @@ import { IAdministrativeRegion } from '../interfaces/administrative-region.inter
 @Table({
   underscored: true,
   timestamps: true,
-  freezeTableName: true,
+  freezeTableName: false,
 })
 export class AdministrativeRegion extends Model<IAdministrativeRegion> {
-  @Column(DataType.CHAR(255))
+  @Column({
+    type: DataType.CHAR(255),
+    allowNull: false,
+  })
   name: string;
 
   @Column({
     type: DataType.CHAR(255),
-    allowNull: true,
+    allowNull: false,
   })
   nameEn: string;
 

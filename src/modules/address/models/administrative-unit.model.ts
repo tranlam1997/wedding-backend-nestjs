@@ -4,7 +4,7 @@ import { IAdministrativeUnit } from '../interfaces/administrative-unit.interface
 @Table({
   underscored: true,
   timestamps: true,
-  freezeTableName: true,
+  freezeTableName: false,
 })
 export class AdministrativeUnit extends Model<IAdministrativeUnit> {
   @Column({
