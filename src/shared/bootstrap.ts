@@ -4,7 +4,6 @@ import { initializeSwagger } from './swagger-config';
 import * as bodyParser from 'body-parser';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import responseTime from 'response-time';
-import config from 'config';
 
 export async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -14,7 +13,7 @@ export async function bootstrap() {
   initializeApp(app);
   await initializeSwagger(app);
 
-  await app.listen(config.get<number>('server.port'));
+  await app.listen(process.env.SERVICE_API_PORT);
 }
 
 async function initializeApp(app: INestApplication) {
@@ -30,5 +29,5 @@ async function initializeApp(app: INestApplication) {
       },
     }),
   );
-  app.setGlobalPrefix(config.get('service.baseUrl'));
+  app.setGlobalPrefix(process.env.SERVICE_API_PATH);
 }
