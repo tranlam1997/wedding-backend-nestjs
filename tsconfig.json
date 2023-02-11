@@ -5,7 +5,7 @@
       "outDir": "./dist",
       "module": "commonjs",
       "target": "ES2020",
-      "incremental": true,
+      "incremental": false,
       // Strict Type Checks
       // "strict": true,
       // "noImplicitAny": true,
