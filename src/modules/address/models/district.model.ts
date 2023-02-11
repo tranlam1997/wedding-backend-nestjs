@@ -6,7 +6,7 @@ import { Province } from "./province.model";
 @Table({
   underscored: true,
   timestamps: true,
-  freezeTableName: true,
+  freezeTableName: false,
 })
 export class District extends Model<IDistrict> {
   @PrimaryKey
@@ -16,7 +16,7 @@ export class District extends Model<IDistrict> {
   @Column(DataType.CHAR(255))
   name: string;
 
-  
+
   @Column({
     type: DataType.CHAR(255),
     allowNull: true,

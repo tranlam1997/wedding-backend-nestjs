@@ -14,7 +14,7 @@ import { AdministrativeUnit } from './administrative-unit.model';
 @Table({
   underscored: true,
   timestamps: true,
-  freezeTableName: true,
+  freezeTableName: false,
 })
 export class Province extends Model<IProvince> {
   @PrimaryKey

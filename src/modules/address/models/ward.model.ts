@@ -1,4 +1,3 @@
-import { Customer } from "@src/modules/customers/customers.model";
 import { BelongsTo, Column, DataType, ForeignKey, Model, PrimaryKey, Table } from "sequelize-typescript";
 import { IWard } from "../interfaces/ward.interface";
 import { AdministrativeUnit } from "./administrative-unit.model";
@@ -7,7 +6,7 @@ import { District } from "./district.model";
 @Table({
   underscored: true,
   timestamps: true,
-  freezeTableName: true,
+  freezeTableName: false,
 })
 export class Ward extends Model<IWard> {
   @PrimaryKey
@@ -17,7 +16,7 @@ export class Ward extends Model<IWard> {
   @Column(DataType.CHAR(255))
   name: string;
 
-  
+
   @Column({
     type: DataType.CHAR(255),
     allowNull: true,
@@ -54,4 +53,5 @@ export class Ward extends Model<IWard> {
   district: District;
 
   @BelongsTo(() => AdministrativeUnit)
-  administrativeUnit: AdministrativeUnit;}
+  administrativeUnit: AdministrativeUnit;
+}
