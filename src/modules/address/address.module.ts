@@ -1,33 +1,29 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { SequelizeModule } from '@nestjs/sequelize';
 import { AddressController } from './address.controller';
 import { AddressService } from './address.service';
-import { AdministrativeRegion } from './entities/administrative-regions.entity';
-import { AdministrativeUnit } from './entities/administrative-units.entity';
-import { District } from './entities/districts.entity';
-import { Province } from './entities/provinces.entity';
-import { Ward } from './entities/wards.entity';
-import { AdministrativeRegionsRepository } from './repositories/administrative-regions.repository';
-import { AdministrativeUnitsRepository } from './repositories/administrative-units.repository';
-import { DistrictsRepository } from './repositories/districts.repository';
-import { PlacesRepository } from './repositories/places.repository';
-import { ProvincesRepository } from './repositories/provinces.repository';
-import { WardsRepository } from './repositories/wards.repository';
+import { AdministrativeRegion } from './models/administrative-region.model';
+import { AdministrativeUnit } from './models/administrative-unit.model';
+import { District } from './models/district.model';
+import { Province } from './models/province.model';
+import { Ward } from './models/ward.model';
+import { Place } from './models/place.model';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Province, District, Ward, AdministrativeRegion, AdministrativeUnit]),
+    SequelizeModule.forFeature([
+      Province,
+      Place,
+      District,
+      Ward,
+      AdministrativeRegion,
+      AdministrativeUnit
+    ]),
   ],
   controllers: [AddressController],
   providers: [
     AddressService,
-    ProvincesRepository,
-    AdministrativeUnitsRepository,
-    AdministrativeRegionsRepository,
-    WardsRepository,
-    DistrictsRepository,
-    PlacesRepository,
   ],
   exports: [AddressService],
 })
-export class AddressModule {}
+export class AddressModule { }

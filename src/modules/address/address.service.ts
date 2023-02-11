@@ -1,40 +1,33 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
-import { District } from "./models/district.model";
-import { DistrictsRepository } from "./repositories/districts.repository";
-import { PlacesRepository } from "./repositories/places.repository";
-import { ProvincesRepository } from "./repositories/provinces.repository";
-import { WardsRepository } from "./repositories/wards.repository";
 import sequelize from 'sequelize';
 import { Sequelize } from "sequelize-typescript";
+import { District } from './models/district.model';
+import { Province } from './models/province.model';
+import { Ward } from './models/ward.model';
 
 @Injectable()
 export class AddressService {
     constructor(
-        private readonly provincesRepo: ProvincesRepository,
-        private readonly districtsRepo: DistrictsRepository,
-        private readonly wardsRepo: WardsRepository,
-        private readonly placesRepo: PlacesRepository,
-        private sequelize: Sequelize
-        
-    ) {}
+        private sequelize: Sequelize,
+        @InjectModel(District) private districtModel: typeof District,
+        @InjectModel(Ward) private wardModel: typeof Ward,
+    ) { }
 
     async getProvinces() {
-        return this.sequelize.query<{
-            name: string,
-        }>('SELECT * FROM "Provinces"', {type: sequelize.QueryTypes.SELECT})
+        return this.sequelize.query<Province>('SELECT * FROM "Provinces"', { type: sequelize.QueryTypes.SELECT })
     }
 
     async getDistrictsOfProvince(provinceCode: string) {
-        return await this.districtsRepo.find({
+        return await this.districtModel.findAll({
             where: {
-                provinceCode,
-            },
+                provinceCode
+            }
         });
     }
 
     async getWardsOfDistrict(districtCode: string) {
-        return await this.wardsRepo.find({
+        return await this.wardModel.findAll({
             where: {
                 districtCode,
             },

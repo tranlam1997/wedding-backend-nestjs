@@ -8,13 +8,13 @@ import { AddressService } from "./address.service";
 export class AddressController {
     constructor(
         private readonly service: AddressService,
-    ) {}
+    ) { }
 
     @Get('provinces')
     @ApiOkResponse({
         status: 200,
         description: 'Get all provinces success',
-      })
+    })
     @ApiCommonResponse()
     getProvinces() {
         return this.service.getProvinces();
@@ -29,7 +29,7 @@ export class AddressController {
     @ApiOkResponse({
         status: 200,
         description: 'Get all districts of a province success',
-        })
+    })
     @ApiCommonResponse()
     getDistrictsOfProvince(@Param('id') provinceCode: string) {
         return this.service.getDistrictsOfProvince(provinceCode);
