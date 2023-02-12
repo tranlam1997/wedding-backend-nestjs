@@ -17,6 +17,9 @@ import { AddressModule } from '../address/address.module';
 import { AttachmentModule } from '../attachment/attachment.module';
 import { OrderModule } from '../order/order.module';
 import { PingModule } from '../ping/ping.module';
+import { PublicApiModule } from '../public-api/public-api.module';
+import { UploadModule } from '../upload/upload.module';
+import { ImageModule } from '../image/image.module';
 
 @Module({
   imports: [
@@ -35,6 +38,9 @@ import { PingModule } from '../ping/ping.module';
     TransactionModule,
     OrderModule,
     PingModule,
+    PublicApiModule,
+    UploadModule,
+    ImageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

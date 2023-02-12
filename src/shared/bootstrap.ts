@@ -19,7 +19,7 @@ export async function bootstrap() {
 async function initializeApp(app: INestApplication) {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
-  app.use(responseTime({ header: 'x-response-time' }));
+  app.use(responseTime({ header: ' X-Response-Time' }));
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -29,5 +29,7 @@ async function initializeApp(app: INestApplication) {
       },
     }),
   );
-  app.setGlobalPrefix(process.env.SERVICE_API_PATH);
+  app.setGlobalPrefix(process.env.SERVICE_API_PATH, {
+    exclude: ['create-user']
+  });
 }
