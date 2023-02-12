@@ -28,6 +28,7 @@
     "aws-sdk": "^2.1230.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "date-fns": "^2.29.3",
     "js-yaml": "^4.1.0",
     "mysql2": "^2.3.3",
     "passport": "^0.6.0",
