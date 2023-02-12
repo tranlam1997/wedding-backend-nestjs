@@ -19,7 +19,7 @@ export async function bootstrap() {
 async function initializeApp(app: INestApplication) {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
-  app.use(responseTime({ header: ' X-Response-Time' }));
+  app.use(responseTime({ header: 'x-response-time' }));
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

@@ -8,7 +8,6 @@ import { Sequelize } from 'sequelize-typescript';
 @Injectable()
 export class PermissionService {
   constructor(
-    private readonly permissionModel: typeof Permission,
     @InjectModel(User) private readonly userModel: typeof User,
     @InjectModel(RolePermission) private readonly rolePermissionModel: typeof RolePermission,
     private sequelize: Sequelize,

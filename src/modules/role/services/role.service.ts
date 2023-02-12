@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { Role } from "../models/role.model";
+import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
 export class RoleService {
     constructor(
-        private readonly roleModel: typeof Role,
+        @InjectModel(Role) private readonly roleModel: typeof Role,
     ) { }
 
     async getRoleList() {

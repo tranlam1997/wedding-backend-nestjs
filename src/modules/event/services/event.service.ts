@@ -13,6 +13,7 @@ import { EventTransaction } from '../../transaction/models/event-transaction.mod
 import { TransactionAttachment } from '../../transaction/models/transaction-attachment.interface';
 import { EventAttachment } from '../../attachment/models/event-attachment.model';
 import { EventMenu } from '../../menu/models/event-menu.model';
+import { stripAccents } from '@src/utils';
 
 @Injectable()
 export class EventService {
