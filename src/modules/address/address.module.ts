@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { AddressController } from './address.controller';
+import { AddressController } from './controllers/address.controller';
 import { AddressService } from './address.service';
 import { AdministrativeRegion } from './models/administrative-region.model';
 import { AdministrativeUnit } from './models/administrative-unit.model';
@@ -8,6 +8,7 @@ import { District } from './models/district.model';
 import { Province } from './models/province.model';
 import { Ward } from './models/ward.model';
 import { Place } from './models/place.model';
+import { PlaceController } from './controllers/place.controller';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { Place } from './models/place.model';
       AdministrativeUnit
     ]),
   ],
-  controllers: [AddressController],
+  controllers: [AddressController, PlaceController],
   providers: [
     AddressService,
   ],

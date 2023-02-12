@@ -7,6 +7,15 @@ import { IPlace } from "../interfaces/place.interface";
   freezeTableName: false,
 })
 export class Place extends Model<IPlace> {
-  @Column(DataType.CHAR(50))
+  @Column({
+    type: DataType.CHAR(50),
+    allowNull: false,
+  })
   name: string;
+
+  @Column(DataType.CHAR(21))
+  photoId: string;
+
+  @Column(DataType.STRING(4000))
+  settings: string;
 }
