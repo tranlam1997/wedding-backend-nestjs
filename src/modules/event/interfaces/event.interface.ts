@@ -2,7 +2,7 @@ export interface IEvent {
     id: number;
     title: string;
     titleEn: string;
-    guestEstimate: number;
+    guestEstimate: string;
     tableCount: number;
     tableSize: number;
     feedback: string;
