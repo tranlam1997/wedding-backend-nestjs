@@ -22,6 +22,7 @@
       // "noFallthroughCasesInSwitch": true,
       // Module Resolution
       "moduleResolution": "node",
+      "resolveJsonModule": true,
       "baseUrl": ".",
       "esModuleInterop": true,
       // Source Maps
