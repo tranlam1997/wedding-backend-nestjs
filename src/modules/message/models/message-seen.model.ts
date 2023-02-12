@@ -1,5 +1,4 @@
 import { Column, Model, Table, DataType, ForeignKey, BelongsTo, Index } from 'sequelize-typescript';
-import { IMessage } from '../interfaces/message.interface';
 import { User } from '../../user/models/user.model';
 import { ChatRoom } from '../../chat/models/chat-room.model';
 import { IMessageSeen } from '../interfaces/message-seen.interface';
