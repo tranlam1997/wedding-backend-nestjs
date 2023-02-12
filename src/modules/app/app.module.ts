@@ -15,6 +15,8 @@ import { TransactionModule } from '../transaction/transaction.module';
 import { ConfigModule } from '@nestjs/config';
 import { AddressModule } from '../address/address.module';
 import { AttachmentModule } from '../attachment/attachment.module';
+import { OrderModule } from '../order/order.module';
+import { PingModule } from '../ping/ping.module';
 
 @Module({
   imports: [
@@ -30,7 +32,9 @@ import { AttachmentModule } from '../attachment/attachment.module';
     MenuModule,
     MessageModule,
     RoleModule,
-    TransactionModule
+    TransactionModule,
+    OrderModule,
+    PingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
