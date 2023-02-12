@@ -4,11 +4,12 @@ import { EventTransaction } from "./models/event-transaction.model";
 import { TransactionAttachment } from './models/transaction-attachment.interface';
 import { Transaction } from "./models/transaction.model";
 import { TransactionController } from "./transaction.controller";
+import { TransactionService } from './transaction.service';
 
 @Module({
     imports: [SequelizeModule.forFeature([Transaction, EventTransaction, TransactionAttachment])],
     controllers: [TransactionController],
-    providers: [],
-    exports: [SequelizeModule],
+    providers: [TransactionService],
+    exports: [TransactionService, SequelizeModule],
 })
 export class TransactionModule {}
