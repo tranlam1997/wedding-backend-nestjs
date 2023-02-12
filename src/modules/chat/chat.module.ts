@@ -9,6 +9,6 @@ import { Participant } from './models/participant.model';
     imports: [SequelizeModule.forFeature([ChatRoom, Participant])],
     controllers: [ChatController],
     providers: [ChatService],
-    exports: [ChatService],
+    exports: [ChatService, SequelizeModule],
 })
 export class ChatModule {}

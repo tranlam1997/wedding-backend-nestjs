@@ -47,7 +47,7 @@ export class CustomerController {
     return this.customersService.findByPhoneOrName({ phoneNumber, name });
   }
 
-  @Get('/:id')
+  @Get(':id')
   @ApiOkResponse({
     status: 200,
     description: 'Get customer by id success',

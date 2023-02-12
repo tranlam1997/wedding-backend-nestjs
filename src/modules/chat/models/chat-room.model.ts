@@ -2,7 +2,6 @@ import { Column, Model, Table, DataType, ForeignKey, HasMany } from 'sequelize-t
 import { IChatRoom } from '../interfaces/chat-room.interface';
 import { User } from '../../user/models/user.model';
 
-
 @Table({
     underscored: true,
     timestamps: true,

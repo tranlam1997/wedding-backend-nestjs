@@ -23,7 +23,6 @@ import { AttachmentModule } from '../attachment/attachment.module';
     CustomerModule, 
     AttachmentModule,
     AddressModule, 
-    AuthModule, 
     EventModule, 
     UserModule,
     ChatModule,

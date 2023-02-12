@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query, Post, Body, Request, Put } from '@nestjs/common';
 import { ApiOkResponse, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ApiCommonResponse } from '@src/decorators/api-common-response.decorator';
-import { EventService } from './event.service';
+import { EventService } from '../services/event.service';
 import { Delete } from '@nestjs/common/decorators';
 
 @Controller('events')

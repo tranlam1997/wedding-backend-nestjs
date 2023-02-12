@@ -14,8 +14,8 @@ import { PlaceAttachment } from "./models/place-attachment.model";
         PlaceAttachment,
         MessageAttachment
     ])],
-    controllers: [AttachmentController],
+    controllers: [],
     providers: [AttachmentService],
-    exports: [AttachmentService],
+    exports: [AttachmentService, SequelizeModule],
 })
 export class AttachmentModule { }

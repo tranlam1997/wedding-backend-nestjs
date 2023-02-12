@@ -24,6 +24,6 @@ import { Place } from './models/place.model';
   providers: [
     AddressService,
   ],
-  exports: [AddressService],
+  exports: [AddressService, SequelizeModule],
 })
 export class AddressModule { }

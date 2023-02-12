@@ -2,17 +2,17 @@ import { BadRequestException, Injectable, InternalServerErrorException } from '@
 import { InjectModel } from '@nestjs/sequelize';
 import sequelize from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
-import { Event } from './models/event.model';
-import { Place } from '../address/models/place.model';
-import { Customer } from '../customer/models/customer.model';
-import { EventType } from './models/event-type.model';
+import { Event } from '../models/event.model';
+import { Place } from '../../address/models/place.model';
+import { Customer } from '../../customer/models/customer.model';
+import { EventType } from '../models/event-type.model';
 import fns from 'date-fns';
-import { ChatRoom } from '../chat/models/chat-room.model';
-import { Transaction } from '../transaction/models/transaction.model';
-import { EventTransaction } from '../transaction/models/event-transaction.model';
-import { TransactionAttachment } from '../transaction/models/transaction-attachment.interface';
-import { EventAttachment } from '../attachment/models/event-attachment.model';
-import { EventMenu } from '../menu/models/event-menu.model';
+import { ChatRoom } from '../../chat/models/chat-room.model';
+import { Transaction } from '../../transaction/models/transaction.model';
+import { EventTransaction } from '../../transaction/models/event-transaction.model';
+import { TransactionAttachment } from '../../transaction/models/transaction-attachment.interface';
+import { EventAttachment } from '../../attachment/models/event-attachment.model';
+import { EventMenu } from '../../menu/models/event-menu.model';
 
 @Injectable()
 export class EventService {
@@ -26,7 +26,7 @@ export class EventService {
     @InjectModel(EventMenu) private eventMenuModel: typeof EventMenu,
     @InjectModel(TransactionAttachment)
     private transactionAttachmentModel: typeof TransactionAttachment,
-  ) {}
+  ) { }
 
   async getEvents() {
     const result = await this.eventModel.findAll({
