@@ -9,10 +9,15 @@ import { CustomerGroup } from './customer-group.model';
   underscored: true,
   timestamps: true,
   freezeTableName: false,
+  charset: 'utf8',
+  collate: 'utf8_unicode_ci',
 })
 export class Customer extends Model<ICustomer> {
   @Column(DataType.CHAR(50))
   name: string;
+
+  @Column(DataType.CHAR(50))
+  nameEn: string;
 
   @Column({
     type: DataType.CHAR(20),

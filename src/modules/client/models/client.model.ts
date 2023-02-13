@@ -5,7 +5,9 @@ import { IClient } from '../interfaces/client.interface';
     underscored: true,
     timestamps: true,
     freezeTableName: false,
-})
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci',
+  })
 export class Client extends Model<IClient> {
     @Column({
         type: DataType.CHAR(21),

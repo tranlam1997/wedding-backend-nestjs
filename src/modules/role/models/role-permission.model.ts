@@ -7,7 +7,9 @@ import { Role } from './role.model';
     underscored: true,
     timestamps: true,
     freezeTableName: false,
-})
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci',
+  })
 export class RolePermission extends Model<IRolePermission> {
     @ForeignKey(() => Role)
     @Column({

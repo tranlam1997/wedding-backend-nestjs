@@ -3,8 +3,10 @@ import { IAdministrativeRegion } from '../interfaces/administrative-region.inter
 
 @Table({
   underscored: true,
-  timestamps: true,
+  timestamps: false,
   freezeTableName: false,
+  charset: 'utf8',
+  collate: 'utf8_unicode_ci',
 })
 export class AdministrativeRegion extends Model<IAdministrativeRegion> {
   @Column({

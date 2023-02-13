@@ -6,7 +6,9 @@ import { IAttachment } from "../interfaces/attachment.interface";
     underscored: true,
     timestamps: true,
     freezeTableName: false,
-})
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci',
+  })
 export class Attachment extends Model<IAttachment> {
     @ForeignKey(() => User)
     @Column({

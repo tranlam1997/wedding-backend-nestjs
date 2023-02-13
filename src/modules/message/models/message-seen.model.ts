@@ -8,7 +8,9 @@ import { Message } from './message.model';
     underscored: true,
     timestamps: true,
     freezeTableName: false,
-})
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci',
+  })
 export class MessageSeen extends Model<IMessageSeen> {
     @ForeignKey(() => User)
     @Column({

@@ -16,7 +16,7 @@ import databaseConfig from './database.config';
         password: configService.get('database.password'),
         database: configService.get('database.database'),
         autoLoadModels: true,
-        synchronize: true,
+        synchronize: false,
         logging: false
       } as SequelizeModuleOptions},
       inject: [ConfigService],

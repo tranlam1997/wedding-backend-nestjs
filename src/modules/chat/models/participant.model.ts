@@ -7,7 +7,9 @@ import { ChatRoom } from './chat-room.model';
     underscored: true,
     timestamps: true,
     freezeTableName: false,
-})
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci',
+  })
 export class Participant extends Model<IParticipant> {
     @ForeignKey(() => User)
     @Column({

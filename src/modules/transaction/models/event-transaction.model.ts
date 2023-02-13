@@ -7,7 +7,9 @@ import { Transaction } from './transaction.model';
     underscored: true,
     timestamps: true,
     freezeTableName: false,
-})
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci',
+  })
 export class EventTransaction extends Model<IEventTransaction> {
     @PrimaryKey
     @ForeignKey(() => Event)

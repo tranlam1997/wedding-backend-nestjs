@@ -13,8 +13,10 @@ import { AdministrativeUnit } from './administrative-unit.model';
 
 @Table({
   underscored: true,
-  timestamps: true,
+  timestamps: false,
   freezeTableName: false,
+  charset: 'utf8',
+  collate: 'utf8_unicode_ci',
 })
 export class Province extends Model<IProvince> {
   @PrimaryKey

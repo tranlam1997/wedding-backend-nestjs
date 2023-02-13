@@ -7,7 +7,9 @@ import { Message } from '@src/modules/message/models/message.model';
     underscored: true,
     timestamps: true,
     freezeTableName: false,
-})
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci',
+  })
 export class MessageAttachment extends Model<IMessageAttachment> {
     @ForeignKey(() => Message)
     @Column({

@@ -17,7 +17,7 @@ export class AddressService {
   ) {}
 
   async getProvinces() {
-    return this.sequelize.query<Province>('SELECT * FROM "Provinces"', {
+    return this.sequelize.query<Province>('SELECT * FROM provinces', {
       type: sequelize.QueryTypes.SELECT,
     });
   }

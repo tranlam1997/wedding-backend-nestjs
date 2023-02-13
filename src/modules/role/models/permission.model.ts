@@ -5,6 +5,8 @@ import { IPermission } from '../interfaces/permission.interface';
   underscored: true,
   timestamps: true,
   freezeTableName: false,
+  charset: 'utf8',
+  collate: 'utf8_unicode_ci',
 })
 export class Permission extends Model<IPermission> {
   @PrimaryKey

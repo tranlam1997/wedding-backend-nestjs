@@ -7,6 +7,8 @@ import { Menu } from './menu.model';
     underscored: true,
     timestamps: true,
     freezeTableName: false,
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci',
 })
 export class EventMenu extends Model<IEventMenu> {
     @ForeignKey(() => Event)

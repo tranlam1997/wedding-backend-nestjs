@@ -5,6 +5,8 @@ import { IPlace } from "../interfaces/place.interface";
   underscored: true,
   timestamps: true,
   freezeTableName: false,
+  charset: 'utf8',
+  collate: 'utf8_unicode_ci',
 })
 export class Place extends Model<IPlace> {
   @Column({

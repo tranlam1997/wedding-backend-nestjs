@@ -8,6 +8,9 @@ export class CustomerDto {
     name: string;
 
     @ApiProperty()
+    nameEn: string;
+
+    @ApiProperty()
     phoneNumber: string;
 
     @ApiProperty()

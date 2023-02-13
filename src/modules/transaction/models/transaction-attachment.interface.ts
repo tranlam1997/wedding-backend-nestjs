@@ -7,7 +7,9 @@ import { Attachment } from '../../attachment/models/attachment.model';
     underscored: true,
     timestamps: true,
     freezeTableName: false,
-})
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci',
+  })
 export class TransactionAttachment extends Model<ITransactionAttachment> {
     @PrimaryKey
     @ForeignKey(() => Transaction)

@@ -8,6 +8,8 @@ import { Place } from '@src/modules/address/models/place.model';
   underscored: true,
   timestamps: true,
   freezeTableName: false,
+  charset: 'utf8',
+  collate: 'utf8_unicode_ci',
 })
 export class Event extends Model<IEvent> {
   @Column(DataType.CHAR(100))

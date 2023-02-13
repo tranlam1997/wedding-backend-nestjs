@@ -6,6 +6,8 @@ import { User } from '../../user/models/user.model';
     underscored: true,
     timestamps: true,
     freezeTableName: false,
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci',
   })
 export class ChatRoom extends Model<IChatRoom> {
     @Column(DataType.CHAR(100))

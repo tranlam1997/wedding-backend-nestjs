@@ -7,7 +7,9 @@ import { Attachment } from './attachment.model';
     underscored: true,
     timestamps: true,
     freezeTableName: false,
-})
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci',
+  })
 export class EventAttachment extends Model<IEventAttachment> {
     @ForeignKey(() => Event)
     @Column({
