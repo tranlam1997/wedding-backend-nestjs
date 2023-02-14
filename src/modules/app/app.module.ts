@@ -20,6 +20,7 @@ import { PublicApiModule } from '../public-api/public-api.module';
 import { UploadModule } from '../upload/upload.module';
 import { ImageModule } from '../image/image.module';
 import { decodeToken } from '@src/middlewares/jwt-auth.middleware';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { decodeToken } from '@src/middlewares/jwt-auth.middleware';
     PublicApiModule,
     UploadModule,
     ImageModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
