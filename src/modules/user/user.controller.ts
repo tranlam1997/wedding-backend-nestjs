@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Request, Put, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
-import { ApiCommonResponse } from '@src/decorators/api-common-response.decorator';
+
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -9,31 +9,16 @@ export class UserController {
   constructor(private readonly service: UserService) {}
 
   @Get()
-  @ApiOkResponse({
-    status: 200,
-    description: 'Get all users success',
-  })
-  @ApiCommonResponse()
   getUsers() {
     return this.service.getUsers();
   }
 
   @Get('me')
-  @ApiOkResponse({
-    status: 200,
-    description: 'Get all users success',
-  })
-  @ApiCommonResponse()
   getCurrentUserInfo(@Request() request: any) {
     return this.service.getCurrentUserInfo(request.user.id);
   }
 
   @Put('me/avatar')
-  @ApiOkResponse({
-    status: 200,
-    description: 'Get all users success',
-  })
-  @ApiCommonResponse()
   updateCurrentUserAvatar(@Body() body: { photoId: string }, @Request() request: any) {
     return this.service.updateCurrentUserAvatar({
       userId: request.user.id,
@@ -42,11 +27,6 @@ export class UserController {
   }
 
   @Post()
-  @ApiOkResponse({
-    status: 200,
-    description: 'Get all users success',
-  })
-  @ApiCommonResponse()
   createUser(
     @Body()
     body: {
@@ -63,11 +43,6 @@ export class UserController {
   }
 
   @Put('avatar')
-  @ApiOkResponse({
-    status: 200,
-    description: 'Get all users success',
-  })
-  @ApiCommonResponse()
   updateUserAvatar(@Body() body: { photoUrl: string; photoId: string }, @Request() request: any) {
     return this.service.updateUserAvatar({
       ...body,
@@ -77,11 +52,6 @@ export class UserController {
   }
 
   @Put('update-role')
-  @ApiOkResponse({
-    status: 200,
-    description: 'Get all users success',
-  })
-  @ApiCommonResponse()
   updateUserRole(@Body() body: { userId: number; roleId: number }) {
     return this.service.updateUserRole({
       ...body,
