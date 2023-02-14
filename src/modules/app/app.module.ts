@@ -1,5 +1,4 @@
-import { Module } from '@nestjs/common';
-import { AuthModule } from '../auth/auth.module';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { CustomerModule } from '../customer/customer.module';
 import { DatabaseModule } from '../database/database.module';
 import { EventModule } from '../event/event.module';
@@ -20,6 +19,7 @@ import { PingModule } from '../ping/ping.module';
 import { PublicApiModule } from '../public-api/public-api.module';
 import { UploadModule } from '../upload/upload.module';
 import { ImageModule } from '../image/image.module';
+import { decodeToken } from '@src/middlewares/jwt-auth.middleware';
 
 @Module({
   imports: [
@@ -45,4 +45,10 @@ import { ImageModule } from '../image/image.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(decodeToken)
+      .forRoutes('*');
+  }
+}
