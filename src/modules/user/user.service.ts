@@ -2,12 +2,12 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './models/user.model';
 import { Sequelize } from 'sequelize-typescript';
-import { db, admin } from '../../common/firebase/firebase-config';
-import { randomUUID } from 'crypto';
+import { admin } from '../../common/firebase/firebase-config';
 import { ChatRoom } from '../chat/models/chat-room.model';
 import { Participant } from '../chat/models/participant.model';
 import { doRequest } from '@src/utils';
 import { uploadBuffer } from '@src/utils/s3';
+import { nanoid } from 'nanoid'
 
 @Injectable()
 export class UserService {
@@ -63,7 +63,7 @@ export class UserService {
 
   async createUser({ email, password, phoneNumber, displayName, roleId }) {
     const seqTrans = await this.sequelize.transaction();
-    const uid = randomUUID();
+    const uid = nanoid();
     let result = null;
     try {
       result = await admin.auth().createUser(
@@ -139,12 +139,12 @@ export class UserService {
         const participantData = [];
         userIds.forEach((u) => {
           const { id } = u;
-          let participantId = randomUUID();
+          let participantId = nanoid();
           //id của chat room giữa 2 user với nhau qui ước dạng userID1-userID2 trong đó userID1 <= userID2
           const roomId = result.id < id ? `${result.id}-${id}` : `${id}-${result.id}`;
           participantData.push([participantId, id, roomId, time]);
 
-          participantId = randomUUID();
+          participantId = nanoid();
           participantData.push([participantId, result.id, roomId, time]);
         });
 

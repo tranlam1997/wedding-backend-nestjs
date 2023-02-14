@@ -1,4 +1,4 @@
-import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, ForeignKey, Model, PrimaryKey, Table } from 'sequelize-typescript';
 import { IParticipant } from '../interfaces/participant.interface';
 import { User } from '../../user/models/user.model';
 import { ChatRoom } from './chat-room.model';
@@ -11,6 +11,12 @@ import { ChatRoom } from './chat-room.model';
     collate: 'utf8_unicode_ci',
   })
 export class Participant extends Model<IParticipant> {
+    @PrimaryKey
+    @Column({
+        type: DataType.STRING(100),
+    })
+    id: string;
+
     @ForeignKey(() => User)
     @Column({
         type: DataType.INTEGER,
@@ -22,12 +28,12 @@ export class Participant extends Model<IParticipant> {
 
     @ForeignKey(() => ChatRoom)
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.STRING(100),
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
         unique: 'userId_roomId'
     })
-    roomId: number;
+    roomId: string;
 
     @Column({
         type: DataType.BIGINT,
